@@ -1,0 +1,44 @@
+[2023-08-07T05:24:07.672+0000] {taskinstance.py:1103} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: perform_s3_tasks.load_files_into_bucket manual__2023-08-07T05:19:42.418192+00:00 [queued]>
+[2023-08-07T05:24:07.696+0000] {taskinstance.py:1103} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: perform_s3_tasks.load_files_into_bucket manual__2023-08-07T05:19:42.418192+00:00 [queued]>
+[2023-08-07T05:24:07.697+0000] {taskinstance.py:1308} INFO - Starting attempt 3 of 6
+[2023-08-07T05:24:07.724+0000] {taskinstance.py:1327} INFO - Executing <Task(LocalFilesystemToS3Operator): load_files_into_bucket> on 2023-08-07 05:19:42.418192+00:00
+[2023-08-07T05:24:07.733+0000] {standard_task_runner.py:57} INFO - Started process 1069 to run task
+[2023-08-07T05:24:07.740+0000] {standard_task_runner.py:84} INFO - Running: ['***', 'tasks', 'run', 'perform_s3_tasks', 'load_files_into_bucket', 'manual__2023-08-07T05:19:42.418192+00:00', '--job-id', '37', '--raw', '--subdir', 'DAGS_FOLDER/s3_dag.py', '--cfg-path', '/tmp/tmpxmq24j7h']
+[2023-08-07T05:24:07.742+0000] {standard_task_runner.py:85} INFO - Job 37: Subtask load_files_into_bucket
+[2023-08-07T05:24:07.835+0000] {task_command.py:410} INFO - Running <TaskInstance: perform_s3_tasks.load_files_into_bucket manual__2023-08-07T05:19:42.418192+00:00 [running]> on host 95071573e7de
+[2023-08-07T05:24:07.998+0000] {taskinstance.py:1547} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='abhi' AIRFLOW_CTX_DAG_ID='perform_s3_tasks' AIRFLOW_CTX_TASK_ID='load_files_into_bucket' AIRFLOW_CTX_EXECUTION_DATE='2023-08-07T05:19:42.418192+00:00' AIRFLOW_CTX_TRY_NUMBER='3' AIRFLOW_CTX_DAG_RUN_ID='manual__2023-08-07T05:19:42.418192+00:00'
+[2023-08-07T05:24:08.022+0000] {base.py:73} INFO - Using connection ID 's3_conn' for task execution.
+[2023-08-07T05:24:08.024+0000] {connection_wrapper.py:337} INFO - AWS Connection (conn_id='s3_conn', conn_type='aws') credentials retrieved from login and password.
+[2023-08-07T05:24:11.810+0000] {taskinstance.py:1824} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/providers/amazon/aws/transfers/local_to_s3.py", line 107, in execute
+    self.acl_policy,
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/providers/amazon/aws/hooks/s3.py", line 115, in wrapper
+    return func(*bound_args.args, **bound_args.kwargs)
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/providers/amazon/aws/hooks/s3.py", line 86, in wrapper
+    return func(*bound_args.args, **bound_args.kwargs)
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/providers/amazon/aws/hooks/s3.py", line 696, in load_file
+    client.upload_file(filename, bucket_name, key, ExtraArgs=extra_args, Config=self.transfer_config)
+  File "/home/airflow/.local/lib/python3.7/site-packages/boto3/s3/inject.py", line 148, in upload_file
+    callback=Callback,
+  File "/home/airflow/.local/lib/python3.7/site-packages/boto3/s3/transfer.py", line 292, in upload_file
+    future.result()
+  File "/home/airflow/.local/lib/python3.7/site-packages/s3transfer/futures.py", line 103, in result
+    return self._coordinator.result()
+  File "/home/airflow/.local/lib/python3.7/site-packages/s3transfer/futures.py", line 266, in result
+    raise self._exception
+  File "/home/airflow/.local/lib/python3.7/site-packages/s3transfer/tasks.py", line 269, in _main
+    self._submit(transfer_future=transfer_future, **kwargs)
+  File "/home/airflow/.local/lib/python3.7/site-packages/s3transfer/upload.py", line 585, in _submit
+    upload_input_manager.provide_transfer_size(transfer_future)
+  File "/home/airflow/.local/lib/python3.7/site-packages/s3transfer/upload.py", line 244, in provide_transfer_size
+    self._osutil.get_file_size(transfer_future.meta.call_args.fileobj)
+  File "/home/airflow/.local/lib/python3.7/site-packages/s3transfer/utils.py", line 247, in get_file_size
+    return os.path.getsize(filename)
+  File "/usr/local/lib/python3.7/genericpath.py", line 50, in getsize
+    return os.stat(filename).st_size
+FileNotFoundError: [Errno 2] No such file or directory: 'Users/abhishekpatkar/Documents/Projects/airflow/dags/local_file/load_file_into_s3.txt'
+[2023-08-07T05:24:11.855+0000] {taskinstance.py:1350} INFO - Marking task as UP_FOR_RETRY. dag_id=perform_s3_tasks, task_id=load_files_into_bucket, execution_date=20230807T051942, start_date=20230807T052407, end_date=20230807T052411
+[2023-08-07T05:24:11.886+0000] {standard_task_runner.py:109} ERROR - Failed to execute job 37 for task load_files_into_bucket ([Errno 2] No such file or directory: 'Users/abhishekpatkar/Documents/Projects/airflow/dags/local_file/load_file_into_s3.txt'; 1069)
+[2023-08-07T05:24:11.948+0000] {local_task_job_runner.py:225} INFO - Task exited with return code 1
+[2023-08-07T05:24:12.031+0000] {taskinstance.py:2653} INFO - 0 downstream tasks scheduled from follow-on schedule check

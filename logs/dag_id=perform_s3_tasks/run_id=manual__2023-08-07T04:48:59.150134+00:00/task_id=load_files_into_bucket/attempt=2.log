@@ -1,0 +1,20 @@
+[2023-08-07T04:51:06.679+0000] {taskinstance.py:1103} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: perform_s3_tasks.load_files_into_bucket manual__2023-08-07T04:48:59.150134+00:00 [queued]>
+[2023-08-07T04:51:06.696+0000] {taskinstance.py:1103} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: perform_s3_tasks.load_files_into_bucket manual__2023-08-07T04:48:59.150134+00:00 [queued]>
+[2023-08-07T04:51:06.697+0000] {taskinstance.py:1308} INFO - Starting attempt 2 of 6
+[2023-08-07T04:51:06.719+0000] {taskinstance.py:1327} INFO - Executing <Task(LocalFilesystemToS3Operator): load_files_into_bucket> on 2023-08-07 04:48:59.150134+00:00
+[2023-08-07T04:51:06.726+0000] {standard_task_runner.py:57} INFO - Started process 487 to run task
+[2023-08-07T04:51:06.732+0000] {standard_task_runner.py:84} INFO - Running: ['***', 'tasks', 'run', 'perform_s3_tasks', 'load_files_into_bucket', 'manual__2023-08-07T04:48:59.150134+00:00', '--job-id', '16', '--raw', '--subdir', 'DAGS_FOLDER/s3_dag.py', '--cfg-path', '/tmp/tmp3l7t7bmn']
+[2023-08-07T04:51:06.734+0000] {standard_task_runner.py:85} INFO - Job 16: Subtask load_files_into_bucket
+[2023-08-07T04:51:06.824+0000] {task_command.py:410} INFO - Running <TaskInstance: perform_s3_tasks.load_files_into_bucket manual__2023-08-07T04:48:59.150134+00:00 [running]> on host 95071573e7de
+[2023-08-07T04:51:06.990+0000] {taskinstance.py:1547} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='abhi' AIRFLOW_CTX_DAG_ID='perform_s3_tasks' AIRFLOW_CTX_TASK_ID='load_files_into_bucket' AIRFLOW_CTX_EXECUTION_DATE='2023-08-07T04:48:59.150134+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='manual__2023-08-07T04:48:59.150134+00:00'
+[2023-08-07T04:51:06.993+0000] {taskinstance.py:1824} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/providers/amazon/aws/transfers/local_to_s3.py", line 98, in execute
+    self.dest_bucket, self.dest_key, "dest_bucket", "dest_key"
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/providers/amazon/aws/hooks/s3.py", line 225, in get_s3_bucket_key
+    f"If `{bucket_param_name}` is provided, {key_param_name} should be a relative path "
+TypeError: If `dest_bucket` is provided, dest_key should be a relative path from root level, rather than a full s3:// url
+[2023-08-07T04:51:07.016+0000] {taskinstance.py:1350} INFO - Marking task as UP_FOR_RETRY. dag_id=perform_s3_tasks, task_id=load_files_into_bucket, execution_date=20230807T044859, start_date=20230807T045106, end_date=20230807T045107
+[2023-08-07T04:51:07.042+0000] {standard_task_runner.py:109} ERROR - Failed to execute job 16 for task load_files_into_bucket (If `dest_bucket` is provided, dest_key should be a relative path from root level, rather than a full s3:// url; 487)
+[2023-08-07T04:51:07.065+0000] {local_task_job_runner.py:225} INFO - Task exited with return code 1
+[2023-08-07T04:51:07.120+0000] {taskinstance.py:2653} INFO - 0 downstream tasks scheduled from follow-on schedule check

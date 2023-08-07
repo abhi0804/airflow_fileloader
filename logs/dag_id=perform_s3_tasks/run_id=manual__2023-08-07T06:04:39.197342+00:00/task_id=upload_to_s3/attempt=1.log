@@ -1,0 +1,20 @@
+[2023-08-07T06:04:45.896+0000] {taskinstance.py:1103} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: perform_s3_tasks.upload_to_s3 manual__2023-08-07T06:04:39.197342+00:00 [queued]>
+[2023-08-07T06:04:45.925+0000] {taskinstance.py:1103} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: perform_s3_tasks.upload_to_s3 manual__2023-08-07T06:04:39.197342+00:00 [queued]>
+[2023-08-07T06:04:45.926+0000] {taskinstance.py:1308} INFO - Starting attempt 1 of 6
+[2023-08-07T06:04:45.974+0000] {taskinstance.py:1327} INFO - Executing <Task(PythonOperator): upload_to_s3> on 2023-08-07 06:04:39.197342+00:00
+[2023-08-07T06:04:45.981+0000] {standard_task_runner.py:57} INFO - Started process 1740 to run task
+[2023-08-07T06:04:46.009+0000] {standard_task_runner.py:84} INFO - Running: ['***', 'tasks', 'run', 'perform_s3_tasks', 'upload_to_s3', 'manual__2023-08-07T06:04:39.197342+00:00', '--job-id', '47', '--raw', '--subdir', 'DAGS_FOLDER/s3_dag.py', '--cfg-path', '/tmp/tmp7m22m7ry']
+[2023-08-07T06:04:46.012+0000] {standard_task_runner.py:85} INFO - Job 47: Subtask upload_to_s3
+[2023-08-07T06:04:46.127+0000] {task_command.py:410} INFO - Running <TaskInstance: perform_s3_tasks.upload_to_s3 manual__2023-08-07T06:04:39.197342+00:00 [running]> on host 95071573e7de
+[2023-08-07T06:04:46.293+0000] {taskinstance.py:1547} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='abhi' AIRFLOW_CTX_DAG_ID='perform_s3_tasks' AIRFLOW_CTX_TASK_ID='upload_to_s3' AIRFLOW_CTX_EXECUTION_DATE='2023-08-07T06:04:39.197342+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2023-08-07T06:04:39.197342+00:00'
+[2023-08-07T06:04:46.296+0000] {taskinstance.py:1824} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/operators/python.py", line 181, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/operators/python.py", line 198, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+TypeError: upload_to_s3() missing 1 required positional argument: 'bucket_name'
+[2023-08-07T06:04:46.320+0000] {taskinstance.py:1350} INFO - Marking task as UP_FOR_RETRY. dag_id=perform_s3_tasks, task_id=upload_to_s3, execution_date=20230807T060439, start_date=20230807T060445, end_date=20230807T060446
+[2023-08-07T06:04:46.349+0000] {standard_task_runner.py:109} ERROR - Failed to execute job 47 for task upload_to_s3 (upload_to_s3() missing 1 required positional argument: 'bucket_name'; 1740)
+[2023-08-07T06:04:46.391+0000] {local_task_job_runner.py:225} INFO - Task exited with return code 1
+[2023-08-07T06:04:46.453+0000] {taskinstance.py:2653} INFO - 0 downstream tasks scheduled from follow-on schedule check

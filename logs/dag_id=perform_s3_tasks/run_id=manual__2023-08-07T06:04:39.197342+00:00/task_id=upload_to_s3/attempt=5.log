@@ -1,0 +1,48 @@
+[2023-08-07T06:11:43.145+0000] {taskinstance.py:1103} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: perform_s3_tasks.upload_to_s3 manual__2023-08-07T06:04:39.197342+00:00 [queued]>
+[2023-08-07T06:11:43.169+0000] {taskinstance.py:1103} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: perform_s3_tasks.upload_to_s3 manual__2023-08-07T06:04:39.197342+00:00 [queued]>
+[2023-08-07T06:11:43.171+0000] {taskinstance.py:1308} INFO - Starting attempt 5 of 10
+[2023-08-07T06:11:43.212+0000] {taskinstance.py:1327} INFO - Executing <Task(PythonOperator): upload_to_s3> on 2023-08-07 06:04:39.197342+00:00
+[2023-08-07T06:11:43.224+0000] {standard_task_runner.py:57} INFO - Started process 1853 to run task
+[2023-08-07T06:11:43.233+0000] {standard_task_runner.py:84} INFO - Running: ['***', 'tasks', 'run', 'perform_s3_tasks', 'upload_to_s3', 'manual__2023-08-07T06:04:39.197342+00:00', '--job-id', '51', '--raw', '--subdir', 'DAGS_FOLDER/s3_dag.py', '--cfg-path', '/tmp/tmp7fg3ks_2']
+[2023-08-07T06:11:43.237+0000] {standard_task_runner.py:85} INFO - Job 51: Subtask upload_to_s3
+[2023-08-07T06:11:43.329+0000] {task_command.py:410} INFO - Running <TaskInstance: perform_s3_tasks.upload_to_s3 manual__2023-08-07T06:04:39.197342+00:00 [running]> on host 95071573e7de
+[2023-08-07T06:11:43.560+0000] {taskinstance.py:1547} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='abhi' AIRFLOW_CTX_DAG_ID='perform_s3_tasks' AIRFLOW_CTX_TASK_ID='upload_to_s3' AIRFLOW_CTX_EXECUTION_DATE='2023-08-07T06:04:39.197342+00:00' AIRFLOW_CTX_TRY_NUMBER='5' AIRFLOW_CTX_DAG_RUN_ID='manual__2023-08-07T06:04:39.197342+00:00'
+[2023-08-07T06:11:43.600+0000] {base.py:73} INFO - Using connection ID 's3_conn' for task execution.
+[2023-08-07T06:11:43.601+0000] {connection_wrapper.py:337} INFO - AWS Connection (conn_id='s3_conn', conn_type='aws') credentials retrieved from login and password.
+[2023-08-07T06:11:45.455+0000] {taskinstance.py:1824} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/operators/python.py", line 181, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/operators/python.py", line 198, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/dags/s3_dag.py", line 20, in upload_to_s3
+    hook.load_file(filename=filename, key=key, bucket_name= bucket_name)
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/providers/amazon/aws/hooks/s3.py", line 115, in wrapper
+    return func(*bound_args.args, **bound_args.kwargs)
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/providers/amazon/aws/hooks/s3.py", line 86, in wrapper
+    return func(*bound_args.args, **bound_args.kwargs)
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/providers/amazon/aws/hooks/s3.py", line 696, in load_file
+    client.upload_file(filename, bucket_name, key, ExtraArgs=extra_args, Config=self.transfer_config)
+  File "/home/airflow/.local/lib/python3.7/site-packages/boto3/s3/inject.py", line 148, in upload_file
+    callback=Callback,
+  File "/home/airflow/.local/lib/python3.7/site-packages/boto3/s3/transfer.py", line 292, in upload_file
+    future.result()
+  File "/home/airflow/.local/lib/python3.7/site-packages/s3transfer/futures.py", line 103, in result
+    return self._coordinator.result()
+  File "/home/airflow/.local/lib/python3.7/site-packages/s3transfer/futures.py", line 266, in result
+    raise self._exception
+  File "/home/airflow/.local/lib/python3.7/site-packages/s3transfer/tasks.py", line 269, in _main
+    self._submit(transfer_future=transfer_future, **kwargs)
+  File "/home/airflow/.local/lib/python3.7/site-packages/s3transfer/upload.py", line 585, in _submit
+    upload_input_manager.provide_transfer_size(transfer_future)
+  File "/home/airflow/.local/lib/python3.7/site-packages/s3transfer/upload.py", line 244, in provide_transfer_size
+    self._osutil.get_file_size(transfer_future.meta.call_args.fileobj)
+  File "/home/airflow/.local/lib/python3.7/site-packages/s3transfer/utils.py", line 247, in get_file_size
+    return os.path.getsize(filename)
+  File "/usr/local/lib/python3.7/genericpath.py", line 50, in getsize
+    return os.stat(filename).st_size
+FileNotFoundError: [Errno 2] No such file or directory: '/local_files/local_file/load_file_into_s3.txt'
+[2023-08-07T06:11:45.560+0000] {taskinstance.py:1350} INFO - Marking task as UP_FOR_RETRY. dag_id=perform_s3_tasks, task_id=upload_to_s3, execution_date=20230807T060439, start_date=20230807T061143, end_date=20230807T061145
+[2023-08-07T06:11:45.643+0000] {standard_task_runner.py:109} ERROR - Failed to execute job 51 for task upload_to_s3 ([Errno 2] No such file or directory: '/local_files/local_file/load_file_into_s3.txt'; 1853)
+[2023-08-07T06:11:45.742+0000] {local_task_job_runner.py:225} INFO - Task exited with return code 1
+[2023-08-07T06:11:46.029+0000] {taskinstance.py:2653} INFO - 0 downstream tasks scheduled from follow-on schedule check
