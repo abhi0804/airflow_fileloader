@@ -20,9 +20,9 @@ def local_to_s3(filename: str ,key: str , bucket_name : str) -> None:
     hook.load_file(filename=filename, key=key, bucket_name= bucket_name)
 
 
-def s3_to_local(local_filepath: str ,key: str , bucket_name : str) -> None:
+def s3_to_local(filepath: str ,key: str , bucket_name : str) -> None:
     hook=S3Hook('s3_conn')
-    hook.download_file(local_filepath=local_filepath, key=key, bucket_name= bucket_name)
+    hook.download_file(filepath=filepath, key=key, bucket_name= bucket_name)
 
 
 dag = DAG(
@@ -45,25 +45,25 @@ create_bucket = S3CreateBucketOperator(
         bucket_name='airflow-test-create-bucket',
         aws_conn_id='s3_conn'
     )
-"""
+
 
 upload_to_s3 = PythonOperator(
         task_id='upload_to_s3',
         python_callable=local_to_s3,
         dag=dag,
         op_kwargs={
-            'filename':'/Users/abhishekpatkar/Documents/Projects/airflow/local_files/local_file/load_file_into_s3.txt',
+            'filename':'dags/load_file_into_s3.txt',
             'key':'load_file_into_s3.txt',
             'bucket_name':'airflow-s3-fileloader'
             }
 )
-
+"""
 download_from_s3 = PythonOperator(
         task_id='download_from_s3',
         python_callable=s3_to_local,
         dag=dag,
         op_kwargs={
-            'local_filepath':'/Users/abhishekpatkar/Documents/Projects/airflow/local_files/local_file/',
+            'filepath':'dags/',
             'key':'test_file.txt',
             'bucket_name':'airflow-s3-fileloader'
             }
@@ -79,18 +79,18 @@ copy_files = S3CopyObjectOperator(
         aws_conn_id='s3_conn',
         dag=dag
     )
-
+"""
 
 load_file_into_s3 = LocalFilesystemToS3Operator(
         task_id='load_files_into_bucket',
-        filename='/load_file_into_s3.txt',
-        dest_key='airflow-s3-fileloader',
-        dest_bucket='airflow_source',
+        filename='dags/load_file_into_s3.txt',
+        dest_key='s3://airflow-s3-fileloader/',
+        dest_bucket=None,
         aws_conn_id='s3_conn',
         verify=None,
         dag=dag
     )
-"""
+
 
 list_bucket = S3ListOperator(
             task_id='list_files_in_bucket',
@@ -108,4 +108,4 @@ end = BashOperator(
 
 
 
-start >> upload_to_s3 >> download_from_s3 >>list_bucket >> end
+start >> load_file_into_s3 >> download_from_s3 >>list_bucket >> end
